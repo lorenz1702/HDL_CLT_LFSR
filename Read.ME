@@ -1,0 +1,11 @@
+echo "source /tools/Xilinx/2025.1/Vivado/settings64.sh"
+
+source ~/.bashrc
+
+
+chmod +x scripts/run_sim.sh
+
+
+make sim TB=tb_lfsr
+
+make build TOP=lfsr
