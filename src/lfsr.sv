@@ -7,7 +7,7 @@ module lfsr #(
     parameter logic [WIDTH-1:0] TAPS = 16'hB400
 )(
     input wire clk,
-    input wire rst,
+    input wire rst_n,
     output reg [WIDTH-1:0] lfsr
 );
     wire feedback;
@@ -15,7 +15,7 @@ module lfsr #(
     assign  feedback = ^(lfsr & TAPS);
 
     always @(posedge clk) begin
-        if (rst) begin
+        if (!rst_n) begin
             lfsr <= SEED; 
         end else begin
             lfsr <= {lfsr[WIDTH-2 : 0], feedback};

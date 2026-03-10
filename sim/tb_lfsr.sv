@@ -15,7 +15,7 @@ module tb_lfsr;
     .TAPS(8'hB8)         //  (1011_1000)
     ) lfsr_8bit_inst (
     .clk(clk),
-    .rst(rst),
+    .rst_n(rst),
     .lfsr(lfsr_out) 
     );
 
@@ -25,10 +25,10 @@ module tb_lfsr;
 
     initial begin
         clk = 0;
-        rst = 1;
+        rst = 0;
 
         #20;
-        rst = 0;
+        rst = 1;
 
         $display("==================================================");
         $display("   STARTING LFSR TEST (200 Cycles)");
