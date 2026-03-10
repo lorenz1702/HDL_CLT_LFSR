@@ -1,18 +1,24 @@
 `timescale 1ns / 1ps
 
-module lfsr (
+module lfsr #(
+    parameter int WIDTH = 16,
+    parameter logic [WIDTH-1:0] SEED = 16'h5678,
+    // Bin: 1011_0100_0000_0000 -> Hexadecimal: B400
+    parameter logic [WIDTH-1:0] TAPS = 16'hB400
+)(
     input wire clk,
     input wire rst,
-    input wire en,
-    output reg [3:0] count
+    output reg [WIDTH-1:0] lfsr
 );
+    wire feedback;
 
-    // Wird bei jeder steigenden Taktflanke ausgeführt
+    assign  feedback = ^(lfsr & TAPS);
+
     always @(posedge clk) begin
         if (rst) begin
-            count <= 4'b0000; // Bei Reset auf 0 setzen
-        end else if (en) begin
-            count <= count + 1; // Wenn enabled, um 1 hochzählen
+            lfsr <= SEED; 
+        end else begin
+            lfsr <= {lfsr[WIDTH-2 : 0], feedback};
         end
     end
 

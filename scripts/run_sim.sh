@@ -1,28 +1,23 @@
 #!/bin/bash
 
-# 1. Prüfen, ob ein Argument (der Modulname) übergeben wurde
 if [ -z "$1" ]; then
-    echo "Fehler: Kein Top-Modul angegeben!"
-    echo "Verwendung: ./run_sim.sh <testbench_top_modul>"
+    echo "Error: No top module specified!"
+    echo "Usage: ./run_sim.sh <testbench_top_module>"
     exit 1
 fi
 
-# Das erste Argument in einer Variablen speichern (für bessere Lesbarkeit)
 TOP_MODULE=$1
 SNAPSHOT="${TOP_MODULE}_snapshot"
 
-echo "=== Starte Simulation für: $TOP_MODULE ==="
+echo "=== Starting simulation for: $TOP_MODULE ==="
 
-# 2. Kompilieren
-echo "Kompiliere..."
+echo "Compiling..."
 xvlog -sv ../src/*.sv ../sim/*.sv
 
-# 3. Ausarbeiten (mit der dynamischen Variablen)
-echo "Elaboriere..."
+echo "Elaborating..."
 xelab -debug typical -top $TOP_MODULE -snapshot $SNAPSHOT
 
-# 4. Simulieren (mit dem dynamischen Snapshot-Namen)
-echo "Simuliere..."
+echo "Simulating..."
 xsim $SNAPSHOT -tclbatch xsim_cfg.tcl
 
-echo "=== Simulation beendet ==="
+echo "=== Simulation finished ==="

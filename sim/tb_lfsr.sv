@@ -2,46 +2,60 @@
 
 module tb_lfsr;
 
-    // Signale deklarieren
+    
     reg clk;
     reg rst;
-    reg en;
-    wire [3:0] count;
+    logic [7:0] lfsr_out;
+    real float_val;
 
-    // Unser Modul instanziieren (anschließen)
-    lfsr uut (
-        .clk(clk),
-        .rst(rst),
-        .en(en),
-        .count(count)
+    
+    lfsr #(
+    .WIDTH(8),           
+    .SEED(8'hA1),        
+    .TAPS(8'hB8)         //  (1011_1000)
+    ) lfsr_8bit_inst (
+    .clk(clk),
+    .rst(rst),
+    .lfsr(lfsr_out) 
     );
 
-    // Einen Takt generieren (alle 5ns invertieren -> 10ns Periode -> 100 MHz)
+
+    
     always #5 clk = ~clk;
 
-    // Eigentliche Simulation
     initial begin
-        // Startwerte setzen
         clk = 0;
         rst = 1;
-        en = 0;
 
-        // 20 Nanosekunden warten
         #20;
-        
-        // Reset loslassen und Zähler aktivieren
         rst = 0;
-        en = 1;
 
-        // Den Zähler für 200 Nanosekunden laufen lassen
-        #200;
+        $display("==================================================");
+        $display("   STARTING LFSR TEST (200 Cycles)");
+        $display("==================================================");
+        $display(" Cycle |   Binary   | Unsigned | Signed ");
+        $display("--------------------------------------------------");
 
-        // Zähler pausieren
-        en = 0;
-        #50;
+        // Automate 200 test cycles
+        for (int i = 1; i <= 200; i++) begin
+            @(posedge clk); 
+            #1; 
 
-        // WICHTIG: Sagt dem Tcl-Befehl "run all", dass er hier stoppen soll!
-        $display("Testbench erfolgreich durchgelaufen!");
+
+            
+
+            float_val = ($signed(lfsr_out)) / 128.0;
+
+          
+            $display("%4d  |  %8b  |   %3d    |  %4d  |  %f", 
+            i, lfsr_out, lfsr_out, $signed(lfsr_out), float_val);
+
+        end
+
+        $display("==================================================");
+        $display("   TEST FINISHED");
+        $display("==================================================");
+
         $finish;
     end
 
