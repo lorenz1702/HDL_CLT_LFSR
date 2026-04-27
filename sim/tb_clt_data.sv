@@ -3,15 +3,21 @@
 module tb_clt_data;
 
     // Parameters for a wide Gaussian curve (Range approx. -6 to +6 with 12 stages)
-    localparam int NUM_STAGES = 3;
-     localparam int WIDTH = 8;
-    localparam int TAPS = 8'hB8;
-     localparam logic [WIDTH-1:0] BASE_SEED = 8'hA5;
+    localparam int NUM_STAGES = 12;
+    //localparam int WIDTH = 8;
+    //localparam int TAPS = 8'hB8;
+    //localparam logic [WIDTH-1:0] BASE_SEED = 8'hA5;
 
     //localparam int WIDTH = 16;
     //localparam logic [WIDTH-1:0] BASE_SEED = 16'h5678;
     //localparam logic [WIDTH-1:0] TAPS = 16'hB400;
 
+
+    localparam int WIDTH = 32;
+    // Der BASE_SEED kann eine beliebige 32-Bit Zahl sein (darf nur nicht 0 sein!)
+    localparam logic [WIDTH-1:0] BASE_SEED = 32'h12345678; 
+    // Maximal length polynomial für 32-bit (Taps an 32, 22, 2, 1)
+    localparam logic [WIDTH-1:0] TAPS = 32'h80200003;
 
 
     // Total number of valid samples to collect for the Python plot

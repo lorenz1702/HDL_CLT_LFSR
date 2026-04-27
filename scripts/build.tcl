@@ -18,7 +18,7 @@ puts "=== Starte Build für Top-Modul: $top_module ==="
 # 2. Dateien einlesen
 read_verilog [glob -nocomplain ../src/*.sv]
 # read_vhdl [glob -nocomplain ../src/*.vhd]
-read_xdc [glob -nocomplain ../constr/*.xdc]
+
 
 # 3. Synthese (jetzt mit der dynamischen Variablen!)
 synth_design -top $top_module -part $part_num
