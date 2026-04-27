@@ -48,7 +48,7 @@ plt.plot(x, p_perfect, 'r', linewidth=2, label=f'Perfect Gaussian Curve (μ={mea
 
 # Layout and Labels
 plt.title(f'Normal Distribution Check: CLT Sum of Hardware LFSRs ({num_samples} samples)')
-plt.xlabel('Normalized Value (clt_out / 256.0)')
+plt.xlabel('Normalized Value (clt_out / 128.0)')
 plt.ylabel('Probability Density')
 plt.grid(axis='y', alpha=0.5)
 plt.legend()

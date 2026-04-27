@@ -9,3 +9,20 @@ chmod +x scripts/run_sim.sh
 make sim TB=tb_lfsr
 
 make build TOP=lfsr
+
+
+
+
+2. Steuerung und Datenspeicherung
+
+    Memory: Speichere die Eingangsdaten (x), die Mittelwerte (μ) und die Standardabweichungen (σ) in On-Chip-Speichern, wie einem kleinen SRAM (BRAM) oder einer Registerbank.
+
+    State machines (simple and complex): Verwende eine FSM (Finite State Machine), um den Ablauf zu steuern. Die FSM koordiniert das Auslesen der Werte aus dem Speicher, triggert die Zufallszahlengenerierung, steuert die Pipeline der Rechenoperationen und schreibt das finale Ergebnis zurück.
+
+
+
+3. Fortgeschrittene Konzepte (Für die Komplexitätspunkte)
+
+    Clock-domain crossing (CDC): Hier kannst du sehr gut punkten! Lass die LFSRs auf einer höheren Taktfrequenz laufen als den Rest des Neurons. Da du für das CLT mehrere Zufallszahlen aufsummieren musst (z. B. 8 bis 16 Werte für eine gute Näherung), kann ein schnellerer Takt für die LFSRs sicherstellen, dass pro langsamerem Systemtaktzyklus eine fertige Gauß-Zufallszahl (ϵ) für die MAC-Einheit bereitsteht. Die Übergabe dieser fertigen Zahl in die langsame Takt-Domäne (z. B. über einen asynchronen FIFO) ist dein CDC-Teil. Dies ist auch das exakte Beispiel aus den Richtlinien für Kommunikation über verschiedene Taktdomänen.
+
+    Communication & Arbitration: Kapsele deinen Beschleuniger mit einer Standard-Schnittstelle, z. B. serielle Kommunikation. Wenn du dein Design noch etwas erweitern möchtest, könntest du zwei dieser Neuronen bauen, die sich über einen Arbiter den Zugriff auf einen gemeinsamen Speicher teilen.

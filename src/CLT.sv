@@ -4,7 +4,7 @@ module CLT #(
     parameter int NUM_STAGES = 3,
     parameter int WIDTH = 8,
     parameter int TAPS = 8'hB8,
-    parameter logic [WIDTH-1:0] BASE_SEED = TAPS
+    parameter logic [WIDTH-1:0] BASE_SEED = 8'hA5
 ) (
     input logic clk,
     input logic reset_n,
